@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAH HEALTH | Stake-to-Earn Student Health & Accountability Platform</title>
+  
+  <!-- Material Design Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top App Bar (Material Surface) -->
+  <header class="top-app-bar">
+    <div class="top-bar-content">
+      <div class="brand-container" onclick="showPublicLandingView()">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+          </svg>
+        </div>
+        <div class="brand-title">
+          VAH HEALTH
+          <span class="brand-subtitle">Stake & Sweat System</span>
+        </div>
+      </div>
+
+      <!-- Public Navigation Links (Visible when logged out) -->
+      <nav class="public-nav-links" id="public-nav-links">
+        <a href="#section-why-deposit" class="public-nav-link">Why Deposit?</a>
+        <a href="#section-students" class="public-nav-link">Student Life</a>
+        <a href="#section-mobile" class="public-nav-link">Mobile Sync</a>
+        <a href="#section-course" class="public-nav-link">30-Day Course</a>
+      </nav>
+
+      <!-- Escrow Balance Pill (Visible when logged in) -->
+      <div id="header-escrow-badge" class="escrow-header-badge hidden" onclick="openDepositModal()" style="cursor: pointer;" title="Click to view deposit escrow settings">
+        <span class="escrow-pulse-dot"></span>
+        <span>Escrow: ₹2,000 pledged</span>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="header-actions">
+        <!-- Logged Out Actions -->
+        <div id="header-guest-actions" style="display: flex; gap: 0.6rem; align-items: center;">
+          <button class="btn btn-outlined btn-sm" onclick="openLoginModal('signin')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            Login
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="openLoginModal('signup')">
+            Get Started
+          </button>
+        </div>
+
+        <!-- Logged In Actions -->
+        <div id="header-auth-actions" class="hidden" style="display: flex; gap: 0.6rem; align-items: center;">
+          <div class="user-profile-badge" id="user-profile-badge">
+            <span class="user-avatar" id="user-avatar-initial">A</span>
+            <span id="user-display-name">Alex Patel (Student)</span>
+          </div>
+          <button class="btn btn-outlined btn-sm" onclick="handleLogout()" title="Log out of account">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="main-wrapper">
+
+    <!-- =========================================================================
+         VIEW 1: PUBLIC LANDING PAGE (Shown when NOT logged in)
+         ========================================================================= -->
+    <div id="public-landing-view" class="view-panel">
+
+      <!-- Hero Section -->
+      <section class="landing-hero">
+        <div class="landing-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          The Financial Commitment Fitness Engine
+        </div>
+        <h1 class="landing-title">
+          Deposit <span>₹2,000</span>.<br>Conquer Student Fatigue.<br>Get 100% Refunded with Live Proof.
+        </h1>
+        <p class="landing-subtitle">
+          Free health apps fail because there are zero consequences. Lock a ₹2,000 deposit pledge for a 30-day health transformation. Hit your daily health goals, submit live smartphone camera proof, and receive <strong>₹500 back automatically every single week</strong>!
+        </p>
+        <div class="landing-cta-group">
+          <button class="btn btn-gold" onclick="openLoginModal('signup')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            Get Started & Pledge Challenge
+          </button>
+          <button class="btn btn-tonal" onclick="quickDemoLogin()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+            Quick 1-Click Demo (Preview Dashboard)
+          </button>
+        </div>
+      </section>
+
+      <!-- SECTION 1: Why the Money Deposit Policy? -->
+      <section id="section-why-deposit" class="info-section">
+        <div class="info-section-header">
+          <span class="info-badge">Behavioral Economics & Psychology</span>
+          <h2 class="info-title">Why Does VAH Health Require a ₹2,000 Deposit?</h2>
+          <p class="info-desc">
+            We don't want your money — we want your commitment. Free fitness apps have an 88% abandonment rate within the first 10 days. The deposit mechanism utilizes proven *Loss Aversion* theory to eliminate procrastination.
+          </p>
+        </div>
+
+        <div class="philosophy-banner">
+          <div>
+            <h3 style="font-size: 1.3rem; font-weight: 800; color: #004d40; margin-bottom: 0.75rem;">
+              The "Stake & Sweat" Behavioral Contract
+            </h3>
+            <p style="font-size: 0.9rem; color: #37474f; line-height: 1.6; margin-bottom: 1.25rem;">
+              Behavioral research shows humans are <strong>3 times more motivated</strong> to avoid losing money they already own than to win a theoretical badge. When ₹2,000 of your allowance or savings is locked in smart escrow, you won't skip your water intake, you won't sleep at 4 AM, and you won't skip your daily workout.
+            </p>
+            <div style="background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 0.85rem 1rem; border-radius: 6px;">
+              <strong style="color: #1b5e20; font-size: 0.85rem;">100% Refund Guarantee:</strong>
+              <div style="font-size: 0.8rem; color: #2e7d32; margin-top: 2px;">
+                You are not paying a subscription fee. Every single rupee is refunded directly to your account in ₹500 weekly installments upon submitting verified live proof!
+              </div>
+            </div>
+          </div>
+
+          <div class="comparison-box">
+            <div style="font-weight: 800; font-size: 0.95rem; color: #263238; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px;">
+              Traditional Free Apps vs. VAH Health
+            </div>
+            <div class="comp-item negative">
+              <span style="font-size: 1.1rem;">❌</span>
+              <span><strong>Free Apps:</strong> Zero financial stakes. You quit after day 3 because "it's free anyway."</span>
+            </div>
+            <div class="comp-item negative">
+              <span style="font-size: 1.1rem;">❌</span>
+              <span><strong>Fake Data:</strong> Users manually type whatever numbers they want with zero verification.</span>
+            </div>
+            <div class="comp-item positive">
+              <span style="font-size: 1.1rem;">✅</span>
+              <span><strong>VAH Deposit Model:</strong> ₹2,000 pledge creates bulletproof daily discipline.</span>
+            </div>
+            <div class="comp-item positive">
+              <span style="font-size: 1.1rem;">✅</span>
+              <span><strong>Live Proof Engine:</strong> Cryptographic timestamped camera capture unlocks your ₹500/week!</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Why it is Vital for Students' Dizzy Day-to-Day Life -->
+      <section id="section-students" class="info-section">
+        <div class="info-section-header">
+          <span class="info-badge">Designed For College & University Students</span>
+          <h2 class="info-title">Thriving in the Chaotic, Dizzy Student Life</h2>
+          <p class="info-desc">
+            Between marathon assignment deadlines, back-to-back lectures, late-night exam cramming, and irregular canteen food, student health deteriorates rapidly. Here is how VAH Health restores mental stamina and vitality.
+          </p>
+        </div>
+
+        <div class="feature-grid-3">
+          <div class="feature-card">
+            <div class="feature-icon-wrapper" style="background: #e1f5fe; color: #0288d1;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+            </div>
+            <h3 class="feature-heading">Combat Brain Fog & Fatigue</h3>
+            <p class="feature-body">
+              70% of student headaches and dizziness during afternoon lectures stem from dehydration and irregular meals. Our 15-column matrix tracks water intake and protein-carb fuel to keep cognitive recall razor-sharp.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper" style="background: #fff3e0; color: #e65100;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <h3 class="feature-heading">Break Sedentary Screen Stagnation</h3>
+            <p class="feature-body">
+              Sitting in study chairs or in front of laptops for 8+ hours destroys spinal posture and drops energy. VAH Health tracks daily sedentary hours and encourages short 15-minute high-efficiency movement breaks between study blocks.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper" style="background: #f3e5f5; color: #7b1fa2;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </div>
+            <h3 class="feature-heading">Fix Irregular Exam Sleep Cycles</h3>
+            <p class="feature-body">
+              Pulling all-nighters wrecks the central nervous system. By monitoring resting heart rates (BPM) and sleep quality percentages, students can optimize their REM rest, leading to higher exam scores and lower stress levels.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Mobile Phone Integrity & Live Proof Sync -->
+      <section id="section-mobile" class="info-section">
+        <div class="mobile-showcase-card">
+          <div>
+            <span class="info-badge">Zero Cheating Guaranteed</span>
+            <h3 style="font-size: 1.6rem; font-weight: 800; color: #004d40; margin-bottom: 0.85rem;">
+              Mobile Phone Integrity & Live Verification
+            </h3>
+            <p style="font-size: 0.9rem; color: #2e3835; line-height: 1.6; margin-bottom: 1.25rem;">
+              You don't need expensive gym trackers. VAH Health runs flawlessly on any mobile browser (Chrome, Safari, Firefox). When your daily target is complete, tap <strong>Submit Live Proof</strong> on your phone:
+            </p>
+            <ul class="mobile-check-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00796b" stroke-width="2.5" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Instant Camera Snapshot:</strong> Snap your gym mirror, smartwatch readout, or weighing scale.</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00796b" stroke-width="2.5" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Live Cryptographic Watermark:</strong> The system stamps the exact real-time GPS coordinates and second-level timestamp.</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00796b" stroke-width="2.5" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Takes 10 Seconds:</strong> Designed to fit between lectures, campus walks, or hostel workouts.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mobile-proof-box">
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #00796b; font-weight: 800; font-size: 0.82rem;">
+              <span class="escrow-pulse-dot"></span>
+              <span>LIVE VERIFICATION PREVIEW</span>
+            </div>
+            <img class="mobile-proof-img" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=500&auto=format&fit=crop&q=80" alt="Verified Student Proof">
+            <div class="mobile-proof-stamp">VAH-HEALTH LIVE PROOF &bull; 10/09/2026 08:32 AM &bull; GPS: VERIFIED</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: 30-Day Course Curriculum & Weekly Payout Milestones -->
+      <section id="section-course" class="info-section">
+        <div class="info-section-header">
+          <span class="info-badge">Curriculum & Payout Milestones</span>
+          <h2 class="info-title">The 30-Day Student Transformation Course</h2>
+          <p class="info-desc">
+            4 weekly phases structured to turn erratic habits into an automated superpower while paying you back every single week.
+          </p>
+        </div>
+
+        <div class="course-track-grid">
+          <div class="course-card">
+            <span class="course-week-badge">Phase 1 &bull; Days 1 to 7</span>
+            <h4 class="course-title">Circadian Reset & Hydration</h4>
+            <p class="course-body">Establish morning sunlight, 3L daily hydration, and hitting the baseline 10,000 steps between classes.</p>
+            <div class="course-payout-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Milestone 1: ₹500 Refunded</span>
+            </div>
+          </div>
+
+          <div class="course-card">
+            <span class="course-week-badge">Phase 2 &bull; Days 8 to 14</span>
+            <h4 class="course-title">Nutritional Macro Balance</h4>
+            <p class="course-body">Eliminate junk food cravings. Balance 30% Protein : 45% Carb : 25% Healthy Fats for sustained study focus.</p>
+            <div class="course-payout-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Milestone 2: ₹500 Refunded</span>
+            </div>
+          </div>
+
+          <div class="course-card">
+            <span class="course-week-badge">Phase 3 &bull; Days 15 to 21</span>
+            <h4 class="course-title">Physical Posture & Stamina</h4>
+            <p class="course-body">Introduce 45-minute daily high-intensity movement to lower resting BPM and reinforce lumbar spine resilience.</p>
+            <div class="course-payout-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Milestone 3: ₹500 Refunded</span>
+            </div>
+          </div>
+
+          <div class="course-card">
+            <span class="course-week-badge">Phase 4 &bull; Days 22 to 30</span>
+            <h4 class="course-title">Habit Mastery & Graduation</h4>
+            <p class="course-body">Locking in automatic discipline for lifetime physical and mental wellness. 100% deposit returned!</p>
+            <div class="course-payout-tag gold">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <span>Final: ₹500 Refunded (Total: ₹2,000)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call to action button at the bottom of public view -->
+        <div class="section-cta-row">
+          <button class="btn btn-primary" onclick="openLoginModal('signup')" style="padding: 0.85rem 2.25rem; font-size: 1rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            Sign In / Register to Start Your Challenge
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+
+    <!-- =========================================================================
+         VIEW 2: AUTHENTICATED DASHBOARD (Shown ONLY when logged in)
+         ========================================================================= -->
+    <div id="auth-dashboard-view" class="view-panel hidden">
+
+      <!-- HERO: Escrow Vault & 4-Week Milestone Progress -->
+      <section class="hero-commitment-card">
+        <div class="hero-text-content">
+          <div class="hero-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Active 30-Day Commitment Challenge
+          </div>
+          <h1 class="hero-title">
+            Deposit <span>₹2,000</span>.<br>Earn Every Rupee Back with Live Proof.
+          </h1>
+          <p class="hero-desc">
+            Your ₹2,000 commitment pledge is locked in smart escrow. Complete daily targets and submit live photo proof: <strong>₹500 is credited automatically every single week</strong>!
+          </p>
+          <div class="hero-cta-group">
+            <button class="btn btn-gold" onclick="openProofModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              Submit Live Proof Today
+            </button>
+            <button class="btn btn-tonal" onclick="openDepositModal()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              Pledge Escrow Details
+            </button>
+          </div>
+        </div>
+
+        <!-- Escrow Vault & 4-Week Progress Widget -->
+        <div class="vault-widget">
+          <div class="vault-top">
+            <div>
+              <div class="vault-label">Student Escrow Vault</div>
+              <div class="vault-amount" id="hero-vault-amount">
+                ₹1,500 <sub>remaining locked</sub>
+              </div>
+              <div style="font-size: 0.78rem; color: #b2dfdb; margin-top: 3px;" id="hero-vault-sub">
+                ₹500 refunded to bank
+              </div>
+            </div>
+            <span class="vault-tag">Smart Escrow</span>
+          </div>
+
+          <!-- 4-Week Milestone Track -->
+          <div class="milestones-track">
+            <div style="display:flex; justify-content:space-between; font-size: 0.75rem; color: rgba(255,255,255,0.85); font-weight:600;">
+              <span>4-Week Refund Track</span>
+              <span>₹500 / week return</span>
+            </div>
+
+            <div class="milestone-steps" id="milestone-steps-container">
+              <!-- Rendered by JS -->
+            </div>
+
+            <div class="vault-progress-bar-bg">
+              <div class="vault-progress-bar-fill" id="hero-vault-progress"></div>
+            </div>
+          </div>
+
+          <div class="vault-footer-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#80cbc4" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>Money released ONLY when live webcam / phone proof is verified daily.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Metrics Quick Stats Overview -->
+      <section class="stats-row">
+        <div class="stat-card">
+          <div class="stat-header">
+            <span>Total Calories Burned</span>
+            <div class="stat-icon" style="background: #ffebee; color: #c62828;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-total-burned">--</div>
+          <div class="stat-subtext text-positive">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            +12% vs last week average
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span>Avg Steps Taken</span>
+            <div class="stat-icon" style="background: #e0f2f1; color: #00796b;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 4v16M17 8l-4-4-4 4"></path></svg>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-avg-steps">--</div>
+          <div class="stat-subtext text-positive">
+            <span>Goal: 10,000 steps daily (100% met)</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span>Hydration Average</span>
+            <div class="stat-icon" style="background: #e1f5fe; color: #0288d1;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-avg-water">--</div>
+          <div class="stat-subtext">
+            <span>Optimal hydration level maintained</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span>Live Proof Streak</span>
+            <div class="stat-icon" style="background: #fef3c7; color: #d97706;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+          </div>
+          <div class="stat-value" id="stat-streak">--</div>
+          <div class="stat-subtext text-positive">
+            <span>₹500 Week 1 Refund Unlocked</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Proof Verification Callout Card -->
+      <section class="proof-callout-card">
+        <div class="proof-left">
+          <div class="proof-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #004d40;">Live Biometric & Photo Proof Verification</h3>
+            <p style="font-size: 0.85rem; color: #546e7a;">
+              To release your ₹500 weekly payout, snap a real-time webcam or mobile picture with automatic timestamp watermark.
+            </p>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="openProofModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          Take Live Snapshot
+        </button>
+      </section>
+
+      <!-- Section Bar: 15-Column Health Tracking Matrix -->
+      <div class="section-bar">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Comprehensive 15-Column Activity Matrix</h2>
+          <span class="section-desc">Real-time daily telemetry: Steps, Calories, Weight, Nutrition, Heart Rate, Live Proof & Refund Unlock.</span>
+        </div>
+        <div class="section-controls">
+          <input type="text" id="table-search-input" class="form-input" placeholder="Search dates, activities..." style="width: 220px; padding: 0.45rem 0.8rem; font-size: 0.8rem;">
+          <button class="btn btn-outlined btn-sm" onclick="exportCSV()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Export CSV
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="openLogModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add Daily Log
+          </button>
+        </div>
+      </div>
+
+      <!-- 15-Column Data Table Surface -->
+      <div class="table-card">
+        <div class="table-header-filter-bar">
+          <div style="display:flex; align-items:center; gap:0.6rem;">
+            <span style="font-weight:700; font-size:0.9rem; color:#263238;">Daily Activity Telemetry</span>
+            <span class="badge-count" id="table-row-count">7 Days Recorded</span>
+          </div>
+          <div style="font-size:0.78rem; color:#607d8b;">
+            💡 Horizontal scroll enabled &bull; Sticky dates &bull; Instant proof verification
+          </div>
+        </div>
+
+        <div class="table-scroll-wrapper">
+          <table class="matrix-table" id="matrix-table">
+            <thead>
+              <tr>
+                <!-- 15 Complete Tracking Columns -->
+                <th>1. Date & Day</th>
+                <th>2. Steps Taken</th>
+                <th>3. Calorie Burn</th>
+                <th>4. Weight & Delta</th>
+                <th>5. Water Intake</th>
+                <th>6. Food Intake</th>
+                <th>7. Protein-Carb-Fat</th>
+                <th>8. Active Workout</th>
+                <th>9. Sleep & Quality</th>
+                <th>10. Heart Rate (BPM)</th>
+                <th>11. Live Proof Status</th>
+                <th>12. Mood & Energy</th>
+                <th>13. Sedentary Time</th>
+                <th>14. Daily Goal %</th>
+                <th>15. Payout Unlocked</th>
+              </tr>
+            </thead>
+            <tbody id="matrix-table-body">
+              <!-- Injected dynamically by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Floating Action Button (+ Log Activity) -->
+      <button class="fab" onclick="openLogModal()" title="Log Today's Activities">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Log Activity</span>
+      </button>
+
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       AUTHENTICATION MODAL: Login & Registration
+       ========================================================================= -->
+  <div class="modal-backdrop" id="login-modal">
+    <div class="modal-surface" style="max-width: 460px;">
+      <div class="modal-header">
+        <div class="modal-title" id="auth-modal-title">Welcome to VAH HEALTH</div>
+        <button class="modal-close-btn" onclick="closeLoginModal()">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Tab navigation -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab-btn active" id="tab-btn-signin" onclick="switchAuthTab('signin')">Sign In</button>
+          <button type="button" class="auth-tab-btn" id="tab-btn-signup" onclick="switchAuthTab('signup')">Create Account</button>
+        </div>
+
+        <!-- Quick 1-Click Demo Shortcut -->
+        <div style="background: #e0f2f1; border: 1px dashed #00897b; border-radius: 8px; padding: 0.75rem 1rem; text-align: center;">
+          <div style="font-size: 0.75rem; font-weight: 700; color: #004d40; margin-bottom: 0.35rem;">
+            ⚡ QUICK TESTING SHORTCUT
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" onclick="quickDemoLogin()" style="width: 100%;">
+            Instant 1-Click Student Login
+          </button>
+        </div>
+
+        <!-- Sign In / Register Form -->
+        <form id="auth-form">
+          <div class="form-group" id="group-name" style="display: none; margin-bottom: 0.75rem;">
+            <label class="form-label" for="auth-name">Full Name</label>
+            <input type="text" id="auth-name" class="form-input" placeholder="e.g. Alex Patel">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label class="form-label" for="auth-email">Student Email / ID</label>
+            <input type="email" id="auth-email" class="form-input" placeholder="student@university.edu" value="alex.student@vah.edu" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <label class="form-label" for="auth-password">Password</label>
+            <input type="password" id="auth-password" class="form-input" placeholder="••••••••" value="password123" required>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: #546e7a;">
+              <input type="checkbox" checked id="remember-me-check">
+              Remember me
+            </label>
+            <a href="javascript:void(0)" onclick="alert('Password reset link sent to registered student email.')" style="color: #00796b; text-decoration: none; font-weight: 600;">
+              Forgot Password?
+            </a>
+          </div>
+
+          <div style="margin-top: 1.25rem;">
+            <button type="submit" class="btn btn-primary" id="auth-submit-btn" style="width: 100%; border-radius: 8px;">
+              Sign In to Dashboard
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Live Proof Camera Capture & Verification -->
+  <div class="modal-backdrop" id="camera-modal">
+    <div class="modal-surface">
+      <div class="modal-header">
+        <div class="modal-title">Live Biometric & Activity Verification</div>
+        <button class="modal-close-btn" onclick="closeProofModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.82rem; color: #546e7a;">
+          Hold up your smartwatch, gym workout selfie, or weighing scale. A cryptographic timestamp and GPS coordinate watermark will be embedded into your live proof.
+        </p>
+
+        <div class="camera-container">
+          <video id="camera-video" autoplay playsinline></video>
+          <img id="captured-preview" style="display:none;" alt="Captured Proof Preview" />
+          
+          <div class="camera-overlay-badge">
+            <span class="escrow-pulse-dot" style="background-color:#00e676;"></span>
+            <span>LIVE CAM FEED</span>
+          </div>
+
+          <div class="camera-timestamp-badge" id="camera-live-clock">
+            Loading live timestamp...
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center; justify-content: space-between;">
+          <div style="font-size: 0.78rem; color: #607d8b;">
+            Camera blocked?
+            <label for="proof-file-upload" style="color: #00796b; font-weight: 700; cursor: pointer; text-decoration: underline; margin-left: 4px;">
+              Upload Photo File
+            </label>
+            <input type="file" id="proof-file-upload" accept="image/*" style="display: none;">
+          </div>
+
+          <button class="btn btn-primary" id="snap-btn" onclick="takeSnapshot()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+            Capture Snapshot
+          </button>
+
+          <button class="btn btn-gold" id="confirm-proof-btn" style="display: none;" onclick="confirmLiveProof()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Confirm & Release Milestone
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Comprehensive 15-Field Activity Log Modal -->
+  <div class="modal-backdrop" id="log-activity-modal">
+    <div class="modal-surface">
+      <div class="modal-header">
+        <div class="modal-title">Log Daily Activities (15 Metrics)</div>
+        <button class="modal-close-btn" onclick="closeLogModal()">&times;</button>
+      </div>
+      <form id="add-activity-form">
+        <div class="modal-body">
+
+          <!-- Section A: Movement & Calories -->
+          <div style="font-weight: 800; font-size: 0.85rem; color: #004d40; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px;">
+            1. Movement & Caloric Burn
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="input-steps">Steps Count</label>
+              <input type="number" name="steps" id="input-steps" class="form-input" placeholder="e.g. 10500" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-cal-burned">Calories Burned (kcal)</label>
+              <input type="number" name="calBurned" id="input-cal-burned" class="form-input" placeholder="e.g. 2450" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-workout-mins">Workout Duration (mins)</label>
+              <input type="number" name="workoutMins" id="input-workout-mins" class="form-input" placeholder="e.g. 45" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-workout-type">Workout Category</label>
+              <input type="text" name="workoutType" id="input-workout-type" class="form-input" placeholder="e.g. HIIT & Core" required>
+            </div>
+          </div>
+
+          <!-- Section B: Body & Vitals -->
+          <div style="font-weight: 800; font-size: 0.85rem; color: #004d40; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; margin-top: 0.5rem;">
+            2. Body & Biometrics
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="input-weight">Current Weight (kg)</label>
+              <input type="number" step="0.1" name="weight" id="input-weight" class="form-input" placeholder="e.g. 73.5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-weight-diff">Weight Change Delta (kg)</label>
+              <input type="number" step="0.1" name="weightDiff" id="input-weight-diff" class="form-input" placeholder="-0.2 or +0.1">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-resting-bpm">Resting Heart Rate (BPM)</label>
+              <input type="number" name="restingBpm" id="input-resting-bpm" class="form-input" placeholder="e.g. 62" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-peak-bpm">Peak Workout BPM</label>
+              <input type="number" name="peakBpm" id="input-peak-bpm" class="form-input" placeholder="e.g. 158" required>
+            </div>
+          </div>
+
+          <!-- Section C: Nutrition & Macronutrients -->
+          <div style="font-weight: 800; font-size: 0.85rem; color: #004d40; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; margin-top: 0.5rem;">
+            3. Nutrition, Macros & Hydration
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="input-food-kcal">Food Intake (Total kcal)</label>
+              <input type="number" name="foodKcal" id="input-food-kcal" class="form-input" placeholder="e.g. 1950" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-water">Water Intake (Liters)</label>
+              <input type="number" step="0.1" name="water" id="input-water" class="form-input" placeholder="e.g. 3.2" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-protein">Protein (grams)</label>
+              <input type="number" name="protein" id="input-protein" class="form-input" placeholder="e.g. 140" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-carbs">Carbs (grams)</label>
+              <input type="number" name="carbs" id="input-carbs" class="form-input" placeholder="e.g. 190" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-fat">Fats (grams)</label>
+              <input type="number" name="fat" id="input-fat" class="form-input" placeholder="e.g. 50" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="select-mood">Mood & Energy Rating</label>
+              <select name="moodEnergy" id="select-mood" class="form-select">
+                <option value="🔥 Peak (5/5)">🔥 Peak (5/5)</option>
+                <option value="⚡ High (4/5)" selected>⚡ High (4/5)</option>
+                <option value="💪 Normal (3/5)">💪 Normal (3/5)</option>
+                <option value="😴 Low (2/5)">😴 Low (2/5)</option>
+                <option value="⚠️ Exhausted (1/5)">⚠️ Exhausted (1/5)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section D: Sleep & Sedentary -->
+          <div style="font-weight: 800; font-size: 0.85rem; color: #004d40; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; margin-top: 0.5rem;">
+            4. Sleep & Screen Time
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="input-sleep-hours">Sleep Duration (hrs)</label>
+              <input type="number" step="0.1" name="sleepHours" id="input-sleep-hours" class="form-input" placeholder="e.g. 7.5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sleep-quality">Sleep Quality (%)</label>
+              <input type="number" name="sleepQuality" id="input-sleep-quality" class="form-input" placeholder="e.g. 90" required>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label" for="input-sedentary-hours">Sedentary / Screen Time (hrs)</label>
+              <input type="number" step="0.1" name="sedentaryHours" id="input-sedentary-hours" class="form-input" placeholder="e.g. 4.5" required>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outlined" onclick="closeLogModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save & Proceed to Proof</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Deposit Pledge Settings & Refund Schedule Modal -->
+  <div class="modal-backdrop" id="deposit-modal">
+    <div class="modal-surface">
+      <div class="modal-header">
+        <div class="modal-title">Deposit Commitment & Refund Schedule</div>
+        <button class="modal-close-btn" onclick="closeDepositModal()">&times;</button>
+      </div>
+      <form id="deposit-form">
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: #546e7a;">
+            Set your financial commitment deposit. The full amount is locked in your personal escrow account and refunded in weekly milestone installments as you verify daily workouts.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="deposit-amount-input">Deposit Commitment Amount (INR ₹)</label>
+            <input type="number" id="deposit-amount-input" class="form-input" value="2000" step="500" min="500" max="50000" required>
+          </div>
+
+          <div style="background: #f1f8f6; border-radius: 10px; padding: 1rem; border: 1px solid #b2dfdb;">
+            <div style="font-weight: 700; font-size: 0.85rem; color: #004d40; margin-bottom: 0.5rem;">
+              Payout Release Schedule (4-Week Challenge):
+            </div>
+            <ul style="font-size: 0.8rem; color: #37474f; list-style: none; display: flex; flex-direction: column; gap: 0.35rem;">
+              <li>&bull; <strong>Week 1:</strong> 25% (₹500) released upon 7 verified days</li>
+              <li>&bull; <strong>Week 2:</strong> 25% (₹500) released upon 14 verified days</li>
+              <li>&bull; <strong>Week 3:</strong> 25% (₹500) released upon 21 verified days</li>
+              <li>&bull; <strong>Week 4:</strong> 25% (₹500) released upon 30-day challenge completion</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outlined" onclick="closeDepositModal()">Close</button>
+          <button type="submit" class="btn btn-gold">Update Deposit Pledge</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Photo Viewer / Proof Inspector Modal -->
+  <div class="modal-backdrop" id="photo-viewer-modal">
+    <div class="modal-surface" style="max-width: 520px;">
+      <div class="modal-header">
+        <div class="modal-title" id="viewer-title">Proof of Workout</div>
+        <button class="modal-close-btn" onclick="closePhotoViewer()">&times;</button>
+      </div>
+      <div class="modal-body" style="align-items: center; text-align: center;">
+        <img id="viewer-image" src="" alt="Verified Proof" style="max-width: 100%; border-radius: 12px; box-shadow: var(--md-elevation-2);">
+        <div id="viewer-time" style="font-size: 0.78rem; color: #546e7a; font-family: monospace; margin-top: 0.5rem;"></div>
+        <div style="font-size: 0.75rem; color: #2e7d32; font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: 4px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Biometric & Timestamp Authenticity Confirmed
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outlined" onclick="closePhotoViewer()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
