@@ -10,29 +10,35 @@ import {
   YAxis,
 } from 'recharts'
 
-function ProgressPage({ progress, onAddEntry }) {
+function ProgressPage({ progress, onAddEntry, onDeleteEntry }) {
   const [date, setDate] = useState('')
   const [minutes, setMinutes] = useState('')
   const [calories, setCalories] = useState('')
+  const [error, setError] = useState('')
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    setError('')
 
-    onAddEntry({
-      date,
-      minutes: Number(minutes),
-      calories: Number(calories),
-    })
+    try {
+      await onAddEntry({
+        date,
+        minutes: Number(minutes),
+        calories: Number(calories),
+      })
 
-    setDate('')
-    setMinutes('')
-    setCalories('')
+      setDate('')
+      setMinutes('')
+      setCalories('')
+    } catch (requestError) {
+      setError(requestError.message || 'Unable to save progress entry.')
+    }
   }
 
   return (
     <main className="page">
       <h1>Progress</h1>
-      <p className="subtitle">Track updates in localStorage for fully offline demo use.</p>
+      <p className="subtitle">Track progress entries synced to SQL.</p>
 
       <section className="card chart-card">
         <div className="chart-wrap">
@@ -80,8 +86,28 @@ function ProgressPage({ progress, onAddEntry }) {
             />
           </label>
 
+          {error && <p className="error">{error}</p>}
+
           <button type="submit">Save Entry</button>
         </form>
+      </section>
+
+      <section className="card">
+        <h2>Saved Entries</h2>
+        {progress.length === 0 ? (
+          <p>No progress entries yet.</p>
+        ) : (
+          <ul>
+            {progress.map((entry) => (
+              <li key={entry.id}>
+                {entry.date} - {entry.minutes} mins - {entry.calories} calories{' '}
+                <button type="button" className="secondary-btn" onClick={() => onDeleteEntry(entry.id)}>
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   )

@@ -1,5 +1,4 @@
-const SESSION_KEY = 'fitness_demo_session'
-const PROGRESS_KEY = 'fitness_demo_progress'
+const SESSION_KEY = 'fitness_api_session'
 
 const parseSafely = (value, fallback) => {
   try {
@@ -17,11 +16,4 @@ export const saveSession = (session) => {
 
 export const clearSession = () => {
   localStorage.removeItem(SESSION_KEY)
-}
-
-export const loadProgress = (defaultProgress) =>
-  parseSafely(localStorage.getItem(PROGRESS_KEY), defaultProgress)
-
-export const saveProgress = (progress) => {
-  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress))
 }

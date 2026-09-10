@@ -4,8 +4,8 @@ function DashboardPage({ user, workouts, progress }) {
 
   return (
     <main className="page">
-      <h1>Welcome, {user.name}</h1>
-      <p className="subtitle">Your offline fitness dashboard for quick presentation.</p>
+      <h1>Welcome, {user?.name || 'User'}</h1>
+      <p className="subtitle">Your fitness dashboard synced through API + SQL.</p>
 
       <section className="stats-grid">
         <article className="card stat-card">

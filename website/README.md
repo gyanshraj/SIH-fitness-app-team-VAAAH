@@ -1,20 +1,18 @@
-# Website Offline Demo (React + Vite)
+# Website (React + Vite)
 
-This website is configured for an **offline presentation demo**.
+This website is now connected to the Python API backend.
 
 ## Stack
 - React + Vite
 - React Router
-- Recharts (progress chart)
-- Local JSON seed data + browser localStorage
+- Recharts
+- Fetch API for backend calls
 
-## Demo Flow
-- Login page (demo credentials shown on screen)
-- Dashboard
-- Workout Plan
-- Progress chart + add progress entries
-
-No backend and no Firebase are required.
+## Features
+- Login with backend auth
+- Dashboard from SQL-backed data
+- Workout plan list + add + delete
+- Progress chart + add + delete entries
 
 ## Run Locally
 ```bash
@@ -22,10 +20,9 @@ npm install
 npm run dev
 ```
 
-## Build for Offline Presentation
-```bash
-npm run build
-npm run preview
-```
+Default API URL: `http://127.0.0.1:8000/api`
 
-Open the preview URL on your laptop and present fully offline.
+To change API URL, create `.env`:
+```bash
+VITE_API_BASE_URL=http://127.0.0.1:8000/api
+```

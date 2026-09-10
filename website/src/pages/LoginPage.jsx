@@ -1,26 +1,30 @@
 import { useState } from 'react'
 
-function LoginPage({ demoUser, onLogin }) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+function LoginPage({ onLogin, apiError }) {
+  const [email, setEmail] = useState('demo@vaaah.com')
+  const [password, setPassword] = useState('demo123')
   const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    setIsSubmitting(true)
+    setError('')
 
-    if (email === demoUser.email && password === demoUser.password) {
-      onLogin({ name: demoUser.name, email: demoUser.email })
-      return
+    try {
+      await onLogin({ email, password })
+    } catch (requestError) {
+      setError(requestError.message || 'Unable to login. Please try again.')
+    } finally {
+      setIsSubmitting(false)
     }
-
-    setError('Invalid demo credentials. Please use the demo login details below.')
   }
 
   return (
     <main className="page page-center">
       <section className="card login-card">
-        <h1>VAAAH Fitness Demo</h1>
-        <p className="subtitle">Offline presentation mode (no backend required).</p>
+        <h1>VAAAH Fitness</h1>
+        <p className="subtitle">Web app with Python API and SQL database.</p>
 
         <form onSubmit={handleSubmit} className="form-grid">
           <label>
@@ -45,15 +49,17 @@ function LoginPage({ demoUser, onLogin }) {
             />
           </label>
 
-          {error && <p className="error">{error}</p>}
+          {(error || apiError) && <p className="error">{error || apiError}</p>}
 
-          <button type="submit">Login to Demo</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Logging in...' : 'Login'}
+          </button>
         </form>
 
         <div className="demo-box">
-          <strong>Demo Credentials</strong>
-          <p>Email: {demoUser.email}</p>
-          <p>Password: {demoUser.password}</p>
+          <strong>Seed Demo Credentials</strong>
+          <p>Email: demo@vaaah.com</p>
+          <p>Password: demo123</p>
         </div>
       </section>
     </main>

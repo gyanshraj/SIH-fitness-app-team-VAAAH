@@ -1,48 +1,52 @@
 # SIH-fitness-app-team-VAAAH
 
-Starter scaffold for a beginner-friendly **Android fitness app + website** project.
+Web-first fitness project with a Python backend and SQL database.
 
-## Recommended Beginner Stack
-
-### Android App
-- **Kotlin** + **Jetpack Compose**
-- **MVVM** architecture
-- **Retrofit** for API calls
-- **Room** for local offline data
+## Current Stack (No Java/Kotlin required)
 
 ### Website
-- **React** + **Vite**
-- **React Router**
-- **Axios** for API calls
-- Optional: **Tailwind CSS**
+- React + Vite
+- React Router
+- Recharts
 
-### Online Integration (App + Website)
-- **Firebase** (best beginner option)
-  - Authentication (login/signup)
-  - Firestore (cloud database)
-  - Storage (profile/workout media)
-  - Hosting (website deployment)
+### Backend
+- FastAPI (Python)
+- SQLite (SQL)
 
-## Basic Project Structure
+## Project Structure
 
 ```text
 SIH-fitness-app-team-VAAAH/
-├── android-app/
+├── android-app/              # optional future mobile client
+├── backend/                  # Python API + SQL storage
+│   ├── app/
+│   ├── fitness.db
 │   ├── README.md
-│   └── app/
-│       └── src/
-│           └── main/
-│               ├── AndroidManifest.xml
-│               ├── java/com/vaaah/fitness/
-│               └── res/layout/
-├── website/
+│   └── requirements.txt
+├── website/                  # main current app
 │   ├── README.md
 │   ├── public/
 │   └── src/
 └── README.md
 ```
 
-## Suggested Next Step
-Initialize each folder with real tooling:
-- Android Studio project in `android-app/`
-- `npm create vite@latest website` in `website/`
+## Quick Start
+
+### 1) Run Backend
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+### 2) Run Website
+```bash
+cd website
+npm install
+npm run dev
+```
+
+Website calls `http://127.0.0.1:8000/api` by default.
+Set `VITE_API_BASE_URL` if needed.
