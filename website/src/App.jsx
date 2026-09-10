@@ -1,18 +1,21 @@
 import { useEffect, useMemo, useState } from 'react'
 import { BrowserRouter, Link, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import './App.css'
+import {
+  addProgress,
+  addWorkout,
+  deleteProgress,
+  deleteWorkout,
+  getProfile,
+  getProgress,
+  getWorkouts,
+  login,
+} from './api/client'
 import DashboardPage from './pages/DashboardPage'
 import LoginPage from './pages/LoginPage'
 import ProgressPage from './pages/ProgressPage'
 import WorkoutPlanPage from './pages/WorkoutPlanPage'
-import { DEFAULT_PROGRESS, DEMO_USER, WORKOUT_PLAN } from './data/mockData'
-import {
-  clearSession,
-  loadProgress,
-  loadSession,
-  saveProgress,
-  saveSession,
-} from './utils/localStorage'
+import { clearSession, loadSession, saveSession } from './utils/localStorage'
 
 function ProtectedRoute({ isLoggedIn }) {
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />
@@ -24,7 +27,7 @@ function AppLayout({ userName, onLogout }) {
       <header className="app-header">
         <div>
           <strong>VAAAH Fitness</strong>
-          <p>Offline Demo</p>
+          <p>Web + Python API</p>
         </div>
 
         <nav>
@@ -47,27 +50,97 @@ function AppLayout({ userName, onLogout }) {
 
 function App() {
   const [session, setSession] = useState(() => loadSession())
-  const [progress, setProgress] = useState(() => loadProgress(DEFAULT_PROGRESS))
+  const [workouts, setWorkouts] = useState([])
+  const [progress, setProgress] = useState([])
+  const [isBootstrapping, setIsBootstrapping] = useState(() => Boolean(loadSession()?.token))
+  const [apiError, setApiError] = useState('')
+
+  const isLoggedIn = useMemo(() => Boolean(session?.token), [session])
 
   useEffect(() => {
-    saveProgress(progress)
-  }, [progress])
+    const initialize = async () => {
+      if (!session?.token) {
+        setIsBootstrapping(false)
+        return
+      }
 
-  const isLoggedIn = useMemo(() => Boolean(session), [session])
+      try {
+        const [profile, workoutsResponse, progressResponse] = await Promise.all([
+          getProfile(session.token),
+          getWorkouts(session.token),
+          getProgress(session.token),
+        ])
 
-  const handleLogin = (user) => {
-    setSession(user)
-    saveSession(user)
+        const nextSession = { token: session.token, user: profile }
+        setSession(nextSession)
+        saveSession(nextSession)
+        setWorkouts(workoutsResponse)
+        setProgress(progressResponse)
+        setApiError('')
+      } catch {
+        setSession(null)
+        clearSession()
+        setWorkouts([])
+        setProgress([])
+        setApiError('Session expired. Please login again.')
+      } finally {
+        setIsBootstrapping(false)
+      }
+    }
+
+    initialize()
+  }, [session?.token])
+
+  const handleLogin = async (credentials) => {
+    const data = await login(credentials)
+    const nextSession = { token: data.token, user: data.user }
+    setSession(nextSession)
+    saveSession(nextSession)
+    setApiError('')
+
+    const [workoutsResponse, progressResponse] = await Promise.all([
+      getWorkouts(nextSession.token),
+      getProgress(nextSession.token),
+    ])
+
+    setWorkouts(workoutsResponse)
+    setProgress(progressResponse)
   }
 
   const handleLogout = () => {
     setSession(null)
     clearSession()
+    setWorkouts([])
+    setProgress([])
   }
 
-  const handleAddProgress = (entry) => {
-    setProgress((current) =>
-      [...current, entry].sort((left, right) => left.date.localeCompare(right.date)),
+  const handleAddProgress = async (entry) => {
+    const saved = await addProgress(session.token, entry)
+    setProgress((current) => [...current, saved].sort((left, right) => left.date.localeCompare(right.date)))
+  }
+
+  const handleDeleteProgress = async (entryId) => {
+    await deleteProgress(session.token, entryId)
+    setProgress((current) => current.filter((entry) => entry.id !== entryId))
+  }
+
+  const handleAddWorkout = async (workout) => {
+    const saved = await addWorkout(session.token, workout)
+    setWorkouts((current) => [...current, saved])
+  }
+
+  const handleDeleteWorkout = async (workoutId) => {
+    await deleteWorkout(session.token, workoutId)
+    setWorkouts((current) => current.filter((workout) => workout.id !== workoutId))
+  }
+
+  if (isBootstrapping) {
+    return (
+      <main className="page page-center">
+        <section className="card login-card">
+          <h1>Loading...</h1>
+        </section>
+      </main>
     )
   }
 
@@ -77,7 +150,11 @@ function App() {
         <Route
           path="/login"
           element={
-            isLoggedIn ? <Navigate to="/dashboard" replace /> : <LoginPage demoUser={DEMO_USER} onLogin={handleLogin} />
+            isLoggedIn ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <LoginPage onLogin={handleLogin} apiError={apiError} />
+            )
           }
         />
 
@@ -85,20 +162,20 @@ function App() {
           <Route
             element={
               <AppLayout
-                userName={session?.name || 'Demo User'}
+                userName={session?.user?.name || 'Demo User'}
                 onLogout={handleLogout}
               />
             }
           >
             <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={<DashboardPage user={session?.user} workouts={workouts} progress={progress} />} />
             <Route
-              path="/dashboard"
-              element={<DashboardPage user={session} workouts={WORKOUT_PLAN} progress={progress} />}
+              path="/workout-plan"
+              element={<WorkoutPlanPage workouts={workouts} onAddWorkout={handleAddWorkout} onDeleteWorkout={handleDeleteWorkout} />}
             />
-            <Route path="/workout-plan" element={<WorkoutPlanPage workouts={WORKOUT_PLAN} />} />
             <Route
               path="/progress"
-              element={<ProgressPage progress={progress} onAddEntry={handleAddProgress} />}
+              element={<ProgressPage progress={progress} onAddEntry={handleAddProgress} onDeleteEntry={handleDeleteProgress} />}
             />
           </Route>
         </Route>
