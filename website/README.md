@@ -1,13 +1,31 @@
-# Website (Starter Structure)
+# Website Offline Demo (React + Vite)
 
-This folder is a starter structure for the website side of the fitness platform.
+This website is configured for an **offline presentation demo**.
 
-## Suggested Beginner Stack
-- **Frontend**: React + Vite
-- **Styling**: Tailwind CSS (optional)
-- **Routing**: React Router
-- **HTTP Client**: Axios
+## Stack
+- React + Vite
+- React Router
+- Recharts (progress chart)
+- Local JSON seed data + browser localStorage
 
-## Basic Structure
-- `src/` → app pages, components, and API calls
-- `public/` → static assets (icons, images)
+## Demo Flow
+- Login page (demo credentials shown on screen)
+- Dashboard
+- Workout Plan
+- Progress chart + add progress entries
+
+No backend and no Firebase are required.
+
+## Run Locally
+```bash
+npm install
+npm run dev
+```
+
+## Build for Offline Presentation
+```bash
+npm run build
+npm run preview
+```
+
+Open the preview URL on your laptop and present fully offline.
