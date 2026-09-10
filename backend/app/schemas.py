@@ -39,3 +39,57 @@ class GoalPayload(BaseModel):
     currentValue: int = Field(ge=0)
     deadline: str | None = None
     status: str = Field(min_length=1)
+
+
+class StudentProfilePayload(BaseModel):
+    age: int = Field(ge=10, le=100)
+    weightKg: float = Field(ge=25.0, le=250.0)
+    heightCm: float = Field(ge=80.0, le=250.0)
+    studyHoursPerDay: float = Field(ge=1.0, le=18.0)
+
+
+class StudentProfileResponse(BaseModel):
+    id: int
+    userId: int
+    age: int
+    weightKg: float
+    heightCm: float
+    studyHoursPerDay: float
+    dailyWaterTargetMl: int
+    dailyWorkoutTargetMins: int
+    bmi: float
+    maintenanceCalories: int
+    studySafeRecommendation: str
+
+
+class StudentDailyLogPayload(BaseModel):
+    date: str = Field(min_length=1)
+    workoutMinsCompleted: int = Field(ge=0)
+    waterMlCompleted: int = Field(ge=0)
+
+
+class StudentDailyLogResponse(BaseModel):
+    id: int
+    userId: int
+    date: str
+    workoutMinsCompleted: int
+    waterMlCompleted: int
+    status: str
+    penaltyCharged: float
+    refunded: float
+
+
+class VaultResponse(BaseModel):
+    userId: int
+    walletBalance: float
+    lockedPenaltyAmount: float
+    totalPenalized: float
+    totalRefunded: float
+    canRedeem: bool
+    redemptionMessage: str
+
+
+class RedeemPenaltyPayload(BaseModel):
+    date: str = Field(min_length=1)
+    extraWorkoutMins: int = Field(ge=15)
+

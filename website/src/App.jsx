@@ -34,6 +34,9 @@ function AppLayout({ userName, onLogout }) {
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/workout-plan">Workout Plan</Link>
           <Link to="/progress">Progress</Link>
+          <a href="/student-fitness.html" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', fontWeight: 600 }}>
+            Student Fitness (₹20 Vault)
+          </a>
         </nav>
 
         <div className="header-actions">
