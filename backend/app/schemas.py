@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -37,7 +39,7 @@ class GoalPayload(BaseModel):
     metric: str = Field(min_length=1)
     targetValue: int = Field(ge=1)
     currentValue: int = Field(ge=0)
-    deadline: str | None = None
+    deadline: Optional[str] = None
     status: str = Field(min_length=1)
 
 

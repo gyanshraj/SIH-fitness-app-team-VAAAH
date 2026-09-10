@@ -21,4 +21,4 @@ API base URL: `http://127.0.0.1:8000/api`
 - Email: `demo@vaaah.com`
 - Password: `demo123`
 
-The database (`backend/fitness.db`) is auto-created and seeded on first startup from `website/src/data/*.json`.
+The database (`backend/fitness.db`) is auto-created and seeded on first startup with demo data. If `website/src/data/*.json` exists, those files are used instead.

@@ -7,10 +7,30 @@ from .database import get_connection
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 WEBSITE_DATA_DIR = ROOT_DIR / "website" / "src" / "data"
+DEFAULT_SEED_DATA = {
+    "user.json": {
+        "name": "Demo Student",
+        "email": "demo@vaaah.com",
+        "password": "demo123",
+    },
+    "workouts.json": [
+        {"day": "Monday", "focus": "Full Body", "duration": 30, "exercises": ["Squats", "Push-ups"]},
+        {"day": "Wednesday", "focus": "Cardio", "duration": 25, "exercises": ["Brisk walk", "Jumping jacks"]},
+        {"day": "Friday", "focus": "Mobility", "duration": 20, "exercises": ["Hip stretches", "Plank"]},
+    ],
+    "progressSeed.json": [
+        {"date": "2026-09-08", "minutes": 30, "calories": 220},
+        {"date": "2026-09-09", "minutes": 25, "calories": 180},
+    ],
+}
 
 
 def _read_json(file_name: str):
-    with (WEBSITE_DATA_DIR / file_name).open("r", encoding="utf-8") as file:
+    data_file = WEBSITE_DATA_DIR / file_name
+    if not data_file.exists():
+        return DEFAULT_SEED_DATA[file_name]
+
+    with data_file.open("r", encoding="utf-8") as file:
         return json.load(file)
 
 

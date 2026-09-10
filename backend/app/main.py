@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import secrets
-from typing import Annotated
+from typing import Annotated, Optional
 
 from fastapi import Depends, FastAPI, Header, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -52,7 +52,7 @@ def on_startup() -> None:
     seed_data()
 
 
-def _get_current_user_id(x_auth_token: Annotated[str | None, Header()] = None) -> int:
+def _get_current_user_id(x_auth_token: Annotated[Optional[str], Header()] = None) -> int:
     if not x_auth_token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing auth token")
 
