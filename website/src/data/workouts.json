@@ -1,0 +1,7 @@
+[
+  {"id": 1, "day": "Monday", "focus": "Upper Body", "duration": 45, "exercises": ["Push-ups", "Dumbbell Press", "Shoulder Press"]},
+  {"id": 2, "day": "Tuesday", "focus": "Cardio", "duration": 35, "exercises": ["Brisk Walk", "Jump Rope", "Cycling"]},
+  {"id": 3, "day": "Wednesday", "focus": "Core", "duration": 30, "exercises": ["Plank", "Russian Twists", "Leg Raises"]},
+  {"id": 4, "day": "Thursday", "focus": "Lower Body", "duration": 45, "exercises": ["Squats", "Lunges", "Calf Raises"]},
+  {"id": 5, "day": "Friday", "focus": "Full Body", "duration": 40, "exercises": ["Burpees", "Mountain Climbers", "Deadlifts"]}
+]

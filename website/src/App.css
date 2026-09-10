@@ -1,0 +1,178 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: #111827;
+  color: #f9fafb;
+  flex-wrap: wrap;
+}
+
+.app-header p {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+nav {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: #1f2937;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.page {
+  max-width: 1000px;
+  margin: 1.5rem auto;
+  padding: 0 1rem 2rem;
+}
+
+.page-center {
+  min-height: 100vh;
+  margin: 0;
+  max-width: none;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(17, 24, 39, 0.08);
+}
+
+.login-card {
+  width: min(420px, 100%);
+  padding: 1.5rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.subtitle {
+  color: #4b5563;
+  margin: 0.4rem 0 1rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+input {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  padding: 0.65rem 0.9rem;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: #374151;
+}
+
+.demo-box {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+.demo-box p {
+  margin: 0.2rem 0;
+}
+
+.error {
+  color: #b91c1c;
+  margin: 0;
+}
+
+.stats-grid,
+.workout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-number {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.workout-card ul {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.chart-card {
+  margin-bottom: 1rem;
+}
+
+.chart-wrap {
+  width: 100%;
+  height: 320px;
+}
